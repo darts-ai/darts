@@ -31,7 +31,7 @@ The key idea of DEEP is to learn a value function approximation from observed tr
 In some sense, the search strategy used for sampling the domain model can be seen as an actor, while the learned value function acts as a critic.
 Our hypothesis is that using a value function approximation this way improves overall performance of a statistical online planner.
 
-A DEEP agent maintains a simulation of the environment in order to sample potential consequences of its action choices. Based on these simulations, the DEEP agent is able to evaluate the quality of its behavioral options, and can act w.r.t. some given optimization objective (e.g. maximization of expected reward). Passing a current state and an action to the simulation allows to sample a potential successor state and an observed reward. Given a state space $$S$$, an action space $$A$$, and a reward domain $$R$$, a simulation $$\Delta$$ has the following form.
+A DEEP agent maintains a simulation of the environment in order to sample potential consequences of its action choices. Based on these simulations, the DEEP agent is able to evaluate the quality of its behavioral options, and can act w.r.t. some given optimization objective (e.g. maximization of expected reward). Passing a current state and an action to the simulation allows to sample a potential successor state and an observed reward. Given a state space \\\\(S\\\\), an action space $$A$$, and a reward domain $$R$$, a simulation $$\Delta$$ has the following form.
 
 $$ P( S \times R | S \times A ) $$
 
