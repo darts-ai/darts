@@ -31,7 +31,7 @@ The key idea of DEEP is to learn a value function approximation from observed tr
 In some sense, the search strategy used for sampling the domain model can be seen as an actor, while the learned value function acts as a critic.
 Our hypothesis is that using a value function approximation this way improves overall performance of a statistical online planner.
 
-A DEEP agent maintains a simulation of the environment in order to sample potential consequences of its action choices. Based on these simulations, the DEEP agent is able to evaluate the quality of its behavioral options, and can act w.r.t. some given optimization objective (e.g. maximization of expected reward). Passing a current state and an action to the simulation allows to sample a potential successor state and an observed reward. Given a state space $S$, an action space $$A$$, and a reward domain $$R$$, a simulation $$\Delta$$ has the following form.
+A DEEP agent maintains a simulation of the environment in order to sample potential consequences of its action choices. Based on these simulations, the DEEP agent is able to evaluate the quality of its behavioral options, and can act w.r.t. some given optimization objective (e.g. maximization of expected reward). Passing a current state and an action to the simulation allows to sample a potential successor state and an observed reward. Given a state space $S$, an action space $A$, and a reward domain $R$, a simulation $\Delta$ has the following form.
 
 $$ P( S \times R | S \times A ) $$
 
@@ -45,7 +45,7 @@ $$ Q(a_0, ..., a_{h-1}) = \sum_{0 \leq i \leq h} r_i $$
 
 ### Local Planning with Value Functions
 
-While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state s<sub>h</sub>. For a given MDP $$(S, A, T, R)$$, the value function is recursively defined as follows.
+While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $s_h$. For a given MDP $(S, A, T, R)$, the value function is recursively defined as follows.
 
 $$ V(s) = \max_a \left( \sum_s T(s, a, s') \cdot \left( R(s, a, s') + \gamma V(s') \right) \right) $$
 
@@ -57,17 +57,17 @@ $$ Q_{DEEP}(a_0, ..., a_{h-1}) = \sum_{0 \leq i \leq h} r_i + V(s_h) $$
 
 ### Learning a Value Function Approximation from Experience
 
-In order to leverage its planning capabilities, a DEEP agent uses a value function for imporoving its action quality estimates. We now discuss how an approximation of the value function can be learned from observed transitions by using a temporal difference update rule for measuring the approximation error. When modeling the value function approximation with a neural network, we can use stochastic gradient descent to reduce the temporal difference error. Let V' be the current value function approximation of the agent. For given observed transitions (s, a, s', r), we can now define the following tuple as a regression target:
+In order to leverage its planning capabilities, a DEEP agent uses a value function for imporoving its action quality estimates. We now discuss how an approximation of the value function can be learned from observed transitions by using a temporal difference update rule for measuring the approximation error. When modeling the value function approximation with a neural network, we can use stochastic gradient descent to reduce the temporal difference error. Let $V'$ be the current value function approximation of the agent. For given observed transitions $(s, a, s', r)$, we can now define the following tuple as a regression target:
 
 $$(s, r + \gamma V'(s'))$$
 
-That is, given some input state s, we want the value function approximation network to output $$r + \gamma V'(s')$$ as a rough approximation of the real value of $$s$$. Given enough observed transitions and training iterations, the network modeling $$V'$$ starts approximating $$V$$.
+That is, given some input state $s$, we want the value function approximation network to output $r + \gamma V'(s')$ as a rough approximation of the real value of $s$. Given enough observed transitions and training iterations, the network modeling $V'$ starts approximating $V$.
 
-As $$V'$$ is a changing target, in particular in the beginning of the learning process, we use a more stable target network $$V''$$ for mitigating stability issues when training $$V'$$. Then, we train $$V'$$ on tuples of the following form.
+As $V'$ is a changing target, in particular in the beginning of the learning process, we use a more stable target network $V''$ for mitigating stability issues when training $V'$. Then, we train $V'$ on tuples of the following form.
 
 $$ (s, r + \gamma V''(s')) $$
 
-The target network $$V''$$ is replaced with the current $$V'$$ after a fixed number of training iterations. By using the less volatile target network $$V''$$ for estimating state values yields a stabilization of the training process.
+The target network $V''$ is replaced with the current $V'$ after a fixed number of training iterations. By using the less volatile target network $V''$ for estimating state values yields a stabilization of the training process.
 
 ## Experimental Results
 
