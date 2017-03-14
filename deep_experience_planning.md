@@ -31,25 +31,23 @@ The key idea of DEEP is to learn a value function approximation from observed tr
 In some sense, the search strategy used for sampling the domain model can be seen as an actor, while the learned value function acts as a critic.
 Our hypothesis is that using a value function approximation this way improves overall performance of a statistical online planner.
 
-A DEEP agent maintains a simulation of the environment in order to sample potential consequences of its action choices. Based on these simulations, the DEEP agent is able to evaluate the quality of its behavioral options, and can act w.r.t. some given optimization objective (e.g. maximization of expected reward). Passing a current state and an action to the simulation allows to sample a potential successor state and an observed reward. Given a state space S, an action space A, and a reward domain R, a simulation &Delta; has the following form.
+A DEEP agent maintains a simulation of the environment in order to sample potential consequences of its action choices. Based on these simulations, the DEEP agent is able to evaluate the quality of its behavioral options, and can act w.r.t. some given optimization objective (e.g. maximization of expected reward). Passing a current state and an action to the simulation allows to sample a potential successor state and an observed reward. Given a state space $$S$$, an action space $$A$$, and a reward domain $$R$$, a simulation $$\Delta$$ has the following form.
 
-> &Delta; : P( S x R | S x A )
-
-$$P( S x R | S x A )$$
+> $$ P( S \times R | S \times A ) $$
 
 Current statistical simulation-based planners perform simulation up to some horizon *h*. For such a simulation, the planning agent observes a sequence of states, actions and rewards like the following:
 
-> s<sub>0</sub>, a<sub>0</sub>, r<sub>0</sub>, s<sub>1</sub>, r<sub>1</sub>, a<sub>1</sub>, ..., s<sub>h-1</sub>, a<sub>h-1</sub>, r<sub>h-1</sub>, s<sub>h</sub>
+> $$ s_0, a_0, r_0, s_1, r_1, a_1, ..., s_{h-1}, a_{h-1}, r_{h-1}, s_h $$
 
 Based on these observations, a possible optimization criterion is the cumulative reward CR, i.e. the sum of rewards gathered from executing the corresponding sequence of actions. A planning agent estimates the quality of a sequence of actions by using the CR.
 
-> Q(a<sub>0</sub>, ..., a<sub>h-1</sub>) = &sum;<sub><sub>0 &le; i &le; h-1</sub></sub> r<sub>i</sub>
+> $$ Q(a_0, ..., a_{h-1}) = \sum_{0 \leq i \leq h} r_i $$
 
 ### Local Planning with Value Functions
 
-While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state s<sub>h</sub>. For a given MDP (S, A, T, R), the value function is recursively defined as follows.
+While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state s<sub>h</sub>. For a given MDP $$(S, A, T, R)$$, the value function is recursively defined as follows.
 
-> V(s) = max<sub>a</sub> [ &sum;<sub><sub>s'</sub></sub> T(s, a, s') * ( R(s, a, s') + &gamma;V(s') ) ]
+> $$ V(s) = \max_a \left( \sum_s T(s, a, s') \cdot ( R(s, a, s') + \gammaV(s') ) \right)$$
 
 That is, the value function of a state is defined by the best action the is executable in this state, where 'best' is determined w.r.t. potential future reward.
 
