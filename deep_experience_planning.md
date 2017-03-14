@@ -1,7 +1,6 @@
 # Deep Experience Planning: Leveraging Local Planning with Learned Value Functions
 
-<script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
 Alexander Neitz, Kyrill Schmid, Lisbeth Claessens, Lenz Belzner
@@ -42,7 +41,7 @@ $$Q(p) = \sum_{0 \leq i \leq h} r_i$$
 
 ### Local Planning with a Value Function
 
-While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $$s_h$$. For a given MDP $$(S, A, T, R)$$ with transition distribution $T : P(S | S \times A)$ and reward function $R : S \times A \times S \rightarrow \mathbb{R}$, the value function is recursively defined as follows.
+While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $$s_h$$. For a given MDP $$(S, A, T, R)$$ with transition distribution $$T : P(S | S \times A)$$ and reward function $$R : S \times A \times S \rightarrow \mathbb{R}$$, the value function is recursively defined as follows.
 
 $$V(s) = \max_a \left( \sum_{s'} T(s' | s, a) \cdot \left( R(s, a, s') + \gamma V(s') \right) \right)$$
 
