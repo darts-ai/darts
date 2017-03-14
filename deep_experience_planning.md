@@ -1,5 +1,9 @@
 # Deep Experience Planning
 
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
 Alexander Neitz, Kyrill Schmid, Lisbeth Claessens, Lenz Belzner
 
 ## Introduction
