@@ -40,21 +40,21 @@ $$Q(p) = \sum_{0 \leq i \leq h} r_i$$
 
 While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $$s_h$$. For a given MDP $$(S, A, T, R)$$ with transition distribution $T : P(S | S \times A)$ and reward function $R : S \times A \times S \rightarrow \mathbb{R}$, the value function is recursively defined as follows.
 
-$$V(s) = \max_a \left( \sum_s T(s, a, s') \cdot \left( R(s, a, s') + \gamma V(s') \right) \right)$$
+$$V(s) = \max_a \left( \sum_{s'} T(s' | s, a) \cdot \left( R(s, a, s') + \gamma V(s') \right) \right)$$
 
 That is, the value function of a state is defined by the best action the is executable in this state, where 'best' is determined w.r.t. potential future reward.
 
 In the case of a DEEP planner, the transition function $T$ and the reward function $R$ of the MDP may only be available implicitly via the simulation $\Delta$. In this case, the value function can be defined via the expectation of future reward.
 
-$$V(s) = \max_a \left( \mathop{{} \mathbb{E}}_{s, r \sim \Delta(s, a)} \left[  r + \gamma V(s') \right] \right)$$
+$$V(s) = \max_a \left( \mathbb{E}_{s, r \sim \Delta(s, a)} \left[  r + \gamma V(s') \right] \right)$$
 
 Given a value function, a DEEP agent alters the estimation of action sequence quality by adding the value of the final state. In some sense, the DEEP agent enhances its local planning with global information obtained via the value function.
 
-$$Q_{DEEP}(a_0, ..., a_{h-1}) = \sum_{0 \leq i \leq h} r_i + V(s_h)$$
+$$Q_{DEEP}(p) = \sum_{0 \leq i \leq h} r_i + V(s_h)$$
 
 ### Learning a Value Function Approximation from Experience
 
-In order to leverage its planning capabilities, a DEEP agent uses a value function for improving its action quality estimates. We now discuss how an approximation of the value function can be learned from observed transitions by using a temporal difference update rule for measuring the approximation error. When modeling the value function approximation with a neural network, we can use stochastic gradient descent to reduce the temporal difference error. Let $$V'$$ be the current value function approximation of the agent. For given observed transitions $$(s, a, s', r)$$, we can now define the following tuple as a regression target:
+In order to leverage its planning capabilities, a DEEP agent uses a value function for improving its action quality estimates. We now discuss how an approximation of the value function can be learned from observed transitions by using a temporal difference update rule for measuring the approximation error. When modeling the value function approximation with a neural network, we can use stochastic gradient descent to reduce the temporal difference error. Let $$V'​$$ be the current value function approximation of the agent. For given observed transitions $$(s, a, s', r)​$$, we can now define the following tuple as a regression target:
 
 $$(s, r + \gamma V'(s'))$$
 
