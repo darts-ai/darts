@@ -27,33 +27,33 @@ A non-exhaustive list of potentially related work.
 
 ## Deep Experience Planning
 
-The key idea of DEEP is to learn a value function approximation from observed transitions, and to use the learned approximation as a heuristic for evaluating state reached at the search horizon of a statistical online planner.
-In some sense, the search strategy used for sampling the domain model can be seen as an actor, while the learned value function acts as a critic.
-Our hypothesis is that using a value function approximation this way improves overall performance of a statistical online planner.
+The key idea of DEEP is to learn a value function approximation from observed transitions, and to use the learned approximation as a heuristic for evaluating state reached at the search horizon of a statistical online planner. In some sense, the search strategy used for sampling the domain model can be seen as an actor, while the learned value function acts as a critic. Our hypothesis is that using a value function approximation this way improves overall performance of a statistical online planner.
+
+### Local Planning
 
 A DEEP agent maintains a simulation of the environment in order to sample potential consequences of its action choices. Based on these simulations, the DEEP agent is able to evaluate the quality of its behavioral options, and can act w.r.t. some given optimization objective (e.g. maximization of expected reward). Passing a current state and an action to the simulation allows to sample a potential successor state and an observed reward. Given a state space $$S$$, an action space $$A$$, and a reward domain $$R$$, a simulation $$\Delta$$ has the following form.
 
-$$ P( S \times R | S \times A ) $$
+$$P( S \times R | S \times A )$$
 
 Current statistical simulation-based planners perform simulation up to some horizon $$h$$. For such a simulation, the planning agent observes a sequence of states, actions and rewards like the following:
 
-$$ s_0, a_0, r_0, s_1, r_1, a_1, ..., s_{h-1}, a_{h-1}, r_{h-1}, s_h $$
+$$s_0, a_0, r_0, s_1, r_1, a_1, ..., s_{h-1}, a_{h-1}, r_{h-1}, s_h$$
 
 Based on these observations, a possible optimization criterion is the cumulative reward, i.e. the sum of rewards gathered from executing the corresponding sequence of actions. A planning agent estimates the quality $$Q$$ of a sequence of actions by using the cumulative reward.
 
-$$ Q(a_0, ..., a_{h-1}) = \sum_{0 \leq i \leq h} r_i $$
+$$Q(a_0, ..., a_{h-1}) = \sum_{0 \leq i \leq h} r_i$$
 
-### Local Planning with Value Functions
+### Local Planning with a Value Function
 
-While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $s_h$. For a given MDP $(S, A, T, R)$, the value function is recursively defined as follows.
+While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $$s_h$$. For a given MDP $$(S, A, T, R)$$, the value function is recursively defined as follows.
 
-$$ V(s) = \max_a \left( \sum_s T(s, a, s') \cdot \left( R(s, a, s') + \gamma V(s') \right) \right) $$
+$$V(s) = \max_a \left( \sum_s T(s, a, s') \cdot \left( R(s, a, s') + \gamma V(s') \right) \right)$$
 
 That is, the value function of a state is defined by the best action the is executable in this state, where 'best' is determined w.r.t. potential future reward.
 
 Given a value function, a DEEP agent alters the estimation of action sequence quality by adding the value of the final state. In some sense, the DEEP agent enhances its local planning with global information obtained via the value function.
 
-$$ Q_{DEEP}(a_0, ..., a_{h-1}) = \sum_{0 \leq i \leq h} r_i + V(s_h) $$
+$$Q_{DEEP}(a_0, ..., a_{h-1}) = \sum_{0 \leq i \leq h} r_i + V(s_h)$$
 
 ### Learning a Value Function Approximation from Experience
 
@@ -63,9 +63,11 @@ $$(s, r + \gamma V'(s'))$$
 
 That is, given some input state $$s$$, we want the value function approximation network to output $$r + \gamma V'(s')$$ as a rough approximation of the real value of $$s$$. Given enough observed transitions and training iterations, the network modeling $$V'$$ starts approximating $$V$$.
 
+### Using a Target Network to Stabilize Training
+
 As $$V'$$ is a changing target, in particular in the beginning of the learning process, we use a more stable target network $$V''$$ for mitigating stability issues when training $$V'$$. Then, we train $$V'$$ on tuples of the following form.
 
-$$ (s, r + \gamma V''(s')) $$
+$$(s, r + \gamma V''(s'))$$
 
 The target network $$V''$$ is replaced with the current $$V'$$ after a fixed number of training iterations. By using the less volatile target network $$V''$$ for estimating state values yields a stabilization of the training process.
 
