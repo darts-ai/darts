@@ -1,14 +1,12 @@
 # Deep Experience Planning: Leveraging Local Planning with Learned Value Functions
 
-<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 Alexander Neitz, Kyrill Schmid, Lisbeth Claessens, Lenz Belzner
 
 ## Introduction
 
-We investigate the combination of statistical online planning based on local search and value function approximations learned from past observations. Many current state-of-the-art statistical online planners perform some kind of finite-horizon search. In many application domains, the search horizon is far smaller than episode length or system lifetime.
-This raises the question of how to evaluate of final search states, i.e. states reached by a particular search run when the finite horizon is met. Deep Experience Planning (DEEP) aims at leveraging statistical online planning with the use of value function approximations learned from previously observed system transitions.
+We investigate the combination of statistical online planning based on local search and value function approximations learned from past observations. Many current state-of-the-art statistical online planners perform some kind of finite-horizon search. In many application domains, the search horizon is far smaller than episode length or system lifetime. This raises the question of how to evaluate of final search states, i.e. states reached by a particular search run when the finite horizon is met. Deep Experience Planning (DEEP) aims at leveraging statistical online planning with the use of value function approximations learned from previously observed system transitions.
 
 ## Related Work
 
@@ -35,19 +33,19 @@ Current statistical simulation-based planners perform simulation up to some hori
 
 $$s_0, a_0, r_0, s_1, r_1, a_1, ..., s_{h-1}, a_{h-1}, r_{h-1}, s_h$$
 
-Based on these observations, a possible optimization criterion is the cumulative reward, i.e. the sum of rewards gathered from executing the corresponding plan $p  = a_0, a_1, ..., a_{h-1}$, i.e. the sequence of actions. A planning agent estimates the quality $$Q$$ of a plan by using the cumulative reward.
+Based on these observations, a possible optimization criterion is the cumulative reward, i.e. the sum of rewards gathered from executing the corresponding plan $p  = a_0, a_1, ..., a_{h-1}​$, i.e. the sequence of actions. A planning agent estimates the quality $$Q​$$ of a plan by using the cumulative reward.
 
 $$Q(p) = \sum_{0 \leq i \leq h} r_i$$
 
 ### Local Planning with a Value Function
 
-While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $$s_h$$. For a given MDP $$(S, A, T, R)$$ with transition distribution $$T : P(S | S \times A)$$ and reward function $$R : S \times A \times S \rightarrow \mathbb{R}$$, the value function is recursively defined as follows.
+While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $$s_h$$. For a given MDP $$(S, A, T, R)$$ with state-action transition distribution $$T$$ and reward function $$R$$, the value function is recursively defined as follows.
 
 $$V(s) = \max_a \left( \sum_{s'} T(s' | s, a) \cdot \left( R(s, a, s') + \gamma V(s') \right) \right)$$
 
 That is, the value function of a state is defined by the best action the is executable in this state, where 'best' is determined w.r.t. potential future reward.
 
-In the case of a DEEP planner, the transition function $T$ and the reward function $R$ of the MDP may only be available implicitly via the simulation $\Delta$. In this case, the value function can be defined via the expectation of future reward.
+In the case of a DEEP planner, the transition function $$T$$ and the reward function $$R$$ of the MDP may only be available implicitly via the simulation $$\Delta$$. In this case, the value function can be defined via the expectation of future reward.
 
 $$V(s) = \max_a \left( \mathbb{E}_{s, r \sim \Delta(s, a)} \left[  r + \gamma V(s') \right] \right)$$
 
