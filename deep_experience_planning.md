@@ -1,4 +1,8 @@
-# Deep Experience Planning
+# Deep Experience Planning: Leveraging Local Planning with Learned Value Functions
+
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
 Alexander Neitz, Kyrill Schmid, Lisbeth Claessens, Lenz Belzner
 
@@ -54,7 +58,7 @@ $$Q_{DEEP}(p) = \sum_{0 \leq i \leq h} r_i + V(s_h)$$
 
 ### Learning a Value Function Approximation from Experience
 
-In order to leverage its planning capabilities, a DEEP agent uses a value function for improving its action quality estimates. We now discuss how an approximation of the value function can be learned from observed transitions by using a temporal difference update rule for measuring the approximation error. When modeling the value function approximation with a neural network, we can use stochastic gradient descent to reduce the temporal difference error. Let $$V'​$$ be the current value function approximation of the agent. For given observed transitions $$(s, a, s', r)​$$, we can now define the following tuple as a regression target:
+In order to leverage its planning capabilities, a DEEP agent uses a value function for improving its action quality estimates. We now discuss how an approximation of the value function can be learned from observed transitions by using a temporal difference update rule for measuring the approximation error. When modeling the value function approximation with a neural network, we can use stochastic gradient descent to reduce the temporal difference error. Let $$V'$$ be the current value function approximation of the agent. For given observed transitions $$(s, a, s', r)$$, we can now define the following tuple as a regression target:
 
 $$(s, r + \gamma V'(s'))$$
 
