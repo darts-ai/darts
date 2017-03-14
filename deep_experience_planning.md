@@ -1,6 +1,8 @@
 # Deep Experience Planning: Leveraging Local Planning with Learned Value Functions
 
-<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" >
+
+</script>
 
 Alexander Neitz, Kyrill Schmid, Lisbeth Claessens, Lenz Belzner
 
@@ -27,21 +29,21 @@ The key idea of DEEP is to learn a value function approximation from observed tr
 
 A DEEP agent maintains a simulation of the environment in order to sample potential consequences of its action choices. Based on these simulations, the DEEP agent is able to evaluate the quality of its behavioral options, and can act w.r.t. some given optimization objective (e.g. maximization of expected reward). Passing a current state and an action to the simulation allows to sample a potential successor state and an observed reward. Given a state space $$S$$, an action space $$A$$, and a reward domain $$R$$, a simulation $$\Delta$$ has the following form.
 
-$$\Delta : P( S \times R | S \times A )$$
+$$\Delta : P( S \times R \vert S \times A )$$
 
 Current statistical simulation-based planners perform simulation up to some horizon $$h$$. For such a simulation, the planning agent observes a sequence of states, actions and rewards like the following:
 
 $$s_0, a_0, r_0, s_1, r_1, a_1, ..., s_{h-1}, a_{h-1}, r_{h-1}, s_h$$
 
-Based on these observations, a possible optimization criterion is the cumulative reward, i.e. the sum of rewards gathered from executing the corresponding plan $p  = a_0, a_1, ..., a_{h-1}​$, i.e. the sequence of actions. A planning agent estimates the quality $$Q​$$ of a plan by using the cumulative reward.
+Based on these observations, a possible optimization criterion is the cumulative reward, i.e. the sum of rewards gathered from executing the corresponding plan $p  = a_0, a_1, ..., a_{h-1}$, i.e. the sequence of actions. A planning agent estimates the quality $$Q$$ of a plan by using the cumulative reward.
 
 $$Q(p) = \sum_{0 \leq i \leq h} r_i$$
 
 ### Local Planning with a Value Function
 
-While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $$s_h$$. For a given MDP $$(S, A, T, R)$$ with state-action transition distribution $$T$$ and reward function $$R$$, the value function is recursively defined as follows.
+While the basic local planning approach as described above can be very effective, DARTS enhances the estimation of action evaluation by employing a value function in order to estimate the expected value of the final simulation state $$s_h$$. For a given MDP $$(S, A, T, R)$$ with state-action transition distribution $$T  : P(S \vert S \times A)$$ and reward function $$R : S \times A \times S \rightarrow \mathbb{R}$$, the value function is recursively defined as follows.
 
-$$V(s) = \max_a \left( \sum_{s'} T(s' | s, a) \cdot \left( R(s, a, s') + \gamma V(s') \right) \right)$$
+$$V(s) = \max_a \left( \sum_{s'} T(s' \vert s, a) \cdot \left( R(s, a, s') + \gamma V(s') \right) \right)$$
 
 That is, the value function of a state is defined by the best action the is executable in this state, where 'best' is determined w.r.t. potential future reward.
 
