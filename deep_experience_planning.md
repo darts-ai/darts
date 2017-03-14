@@ -31,6 +31,8 @@ A DEEP agent maintains a simulation of the environment in order to sample potent
 
 > &Delta; : P( S x R | S x A )
 
+$$P( S x R | S x A )$$
+
 Current statistical simulation-based planners perform simulation up to some horizon *h*. For such a simulation, the planning agent observes a sequence of states, actions and rewards like the following:
 
 > s<sub>0</sub>, a<sub>0</sub>, r<sub>0</sub>, s<sub>1</sub>, r<sub>1</sub>, a<sub>1</sub>, ..., s<sub>h-1</sub>, a<sub>h-1</sub>, r<sub>h-1</sub>, s<sub>h</sub>
