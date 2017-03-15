@@ -1,9 +1,5 @@
 # Deep Experience Planning: Leveraging Local Planning with Learned Value Functions
 
-<script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
 Alexander Neitz, Kyrill Schmid, Lisbeth Claessens, Lenz Belzner
 
 ## Introduction
@@ -35,7 +31,7 @@ Current statistical simulation-based planners perform simulation up to some hori
 
 $$s_0, a_0, r_0, s_1, r_1, a_1, ..., s_{h-1}, a_{h-1}, r_{h-1}, s_h$$
 
-Based on these observations, a possible optimization criterion is the cumulative reward, i.e. the sum of rewards gathered from executing the corresponding plan $p  = a_0, a_1, ..., a_{h-1}$, i.e. the sequence of actions. A planning agent estimates the quality $$Q$$ of a plan by using the cumulative reward.
+Based on these observations, a possible optimization criterion is the cumulative reward, i.e. the sum of rewards gathered from executing the corresponding plan $$p  = a_0, a_1, ..., a_{h-1}​$$, i.e. the sequence of actions. A planning agent estimates the quality $$Q​$$ of a plan by using the cumulative reward.
 
 $$Q(p) = \sum_{0 \leq i \leq h} r_i$$
 
